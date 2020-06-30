@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISS WHEREABOUT</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+
+    <link rel="stylesheet" href="../css/style1.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>WHERE IS ISS?</h1>
+        <p>
+            <span>
+                <span>Latitude: </span>
+                <span id="lat"></span>
+            </span>
+            <span>
+                <span> Longitude:</span>
+                <span id="long"></span>
+            </span>
+            <span>
+                <span> Altitude:</span>
+                <span id="alt"></span>
+            </span>
+            <span>
+                <span>Date: </span>
+                <span id="date"></span>
+            </span>
+        </p>
+    </div>
+    <div class='containerMap'>
+        <div id="map"></div>
+    </div>
+
+
+
+</body>
+
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+
+<script>
+
+    const map = L.map('map').setView([0, 0], 1);
+    let firstTime = true;
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const tiles = L.tileLayer(tileUrl, { attribution });
+
+
+
+    tiles.addTo(map);
+
+
+
+    const rocket = L.icon({
+        iconUrl: '../img/rocket.png',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+    let marker = L.marker([0, 0], { icon: rocket }).addTo(map);
+    const url_api = "https://api.wheretheiss.at/v1/satellites/25544";
+    let span1 = document.getElementById("lat"), span2 = document.querySelector("#long"), span3 = document.querySelector("#alt"),
+        span4 = document.querySelector("#date");
+
+    async function getSatData() {
+
+        const response = await fetch(url_api)
+        const data_set = await response.json();
+        console.log(data_set);
+        const { latitude, longitude, altitude, timestamp } = data_set;
+
+        marker.setLatLng([latitude, longitude]);
+        if (firstTime === true) {
+            map.setView([latitude, longitude], 2)
+            firstTime = false;
+        }
+        const unixTimestamp = timestamp
+        const milliseconds = timestamp * 1000
+        const dateObject = new Date(milliseconds)
+        const humanDateFormat = dateObject.toLocaleString() 
+        span1.innerHTML = `${latitude.toFixed(2)}°`;
+        span2.innerHTML = `${longitude.toFixed(2)}°`;
+        span3.innerHTML = `${altitude.toFixed(2)} Kilometers`;
+        span4.innerHTML = humanDateFormat;
+        marker.bindPopup("<b>Hello world!</b><br>I am a ISS.");
+        let circle = L.circle([latitude, longitude], {
+            color: 'blue'
+            /* radius: 2000 */
+        }).addTo(map);
+
+    }
+
+    ///getSatData();
+    setInterval(getSatData, 1200);
+
+
+</script>
+
+</html>

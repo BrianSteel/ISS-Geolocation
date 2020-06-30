@@ -1,0 +1,102 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: url("../img/space.jpg");
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+}
+
+.container h1 {
+    text-align: center;
+    color: #ff6c6c;
+    font-size: 3rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: 0.12rem .12rem 1rem rgb(255, 255, 255);
+    text-decoration: underline;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.container p {
+    font-size: 1.3rem;
+    padding: 1rem;
+    border: 2px solid #ff7a7a;
+    color: #f0cbcb;
+    width: 40rem;
+    line-height: 2rem;
+    margin: auto;
+}
+
+.container p>span {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(113, 113, 179);
+}
+
+#map {
+    height: 500px;
+    width: 1250px;
+    border: 5px solid rgb(113, 113, 179);
+    margin: 10px;
+    margin: auto;
+    margin-top: 1.5rem;
+}
+
+@media only screen and (max-width: 1300px) {
+    #map {
+        width: 800px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #map {
+        width: 600px;
+    }
+    .container p {
+        width: 30rem;
+        line-height: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    #map {
+        width: 400px;
+        height: 300px;
+    }
+    .container p {
+        width: 20rem;
+        line-height: 1.2rem;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #map {
+        width: 300px;
+        height: 200px;
+    }
+    .container p {
+        width: 12rem;
+        font-size: .9rem;
+        line-height: 1.2rem;
+    }
+    .container h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    #map {
+        width: 200px;
+        height: 150px;
+    }
+    .container p {
+        width: 8rem;
+        font-size: .6rem;
+        line-height: 1.2rem;
+        justify-content: start;
+    }
+    .container h1 {
+        font-size: 1rem;
+    }
+}
